@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    {% block title %} {% endblock %}
+</head>
+<body>
+<div class="container-fluid">
+	<div class="row">
+		<div class="col-md-12">
+			<ul class="nav nav-tabs navbar-expand-lg flex-row navbar-light bg-light">
+				<li class="nav-item">
+					<a class="nav-link" href="/index">Главная страница</a>
+				</li>
+				<li class="nav-item">
+					<a class="nav-link" href="/add_post">Создать задачу</a>
+				</li>
+				<li class="nav-item">
+					<a class="nav-link" href="/tasks">Показать задачи</a>
+				</li>
+                <li class="nav-item">
+					<a class="nav-link" href="#">Профиль</a>
+				</li>
+				<li class="nav-item">
+					<a class="nav-link" href="/auth">Регистрация</a>
+				</li>
+			</ul>
+		</div>
+
+	</div>
+</div>
+    {% block body %} {% endblock %}
+</body>
+</html>
