@@ -1,7 +1,6 @@
 from app import app
 from flask import render_template, request, redirect
-from authorize_db import User, Task, db
-
+from models import User, Task, db
 
 
 @app.route('/')
@@ -16,7 +15,7 @@ def tasks():
     return render_template('tasks.html')
 
 
-@app.route('/auth', methods=['POST'])
+@app.route('/auth')
 def auth():
     if request.method == "POST":
         login = request.form['login']
@@ -32,6 +31,22 @@ def auth():
             return "Получилась ошибка"
     else:
         return render_template('auth.html')
+
+
+@app.route('/login', methods=['GET', 'POST'])
+def login_page():
+    login = request.form.get('login')
+    password = request.form.get('password')
+
+    if login and password:
+        pass
+    else:
+        render_template('auth.html')
+
+
+@app.route('logout', methods=['GET', 'POST'])
+def logout():
+    pass
 
 
 @app.route('/add_post', methods=['POST'])
