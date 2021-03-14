@@ -1,41 +1,62 @@
-{% extends 'base.html' %}
+{% extends "base.html" %}
+
 {% block title %}
-    <title>Главная страница</title>
+    <title>Регистрация</title>
 {% endblock %}
 
 {% block body %}
 
-<div class="container-fluid">
-    <div class="raw">
-        <div class="col-md-4">
-            <h2>
-				Регистрация
-			</h2>
-                    <form method="post">
-                        <div class="form-group">
+    {% with messages = get_flashed_messages() %}
+        {% if messages %}
+            <ul class=flashes>
+                {% for message in messages %}
+                    <li>
+                        {{ message }}
+                    </li>
+                {% endfor %}
+            </ul>
+        {% endif %}
+    {% endwith %}
 
-                            <label for="InputEmail">
-                                Логин
-                            </label>
-                            <input type="text" class="form-control" name="login" id="title" placeholder="Введите логин"/>
-                        </div>
-                        <div class="form-group">
+    <div class="container-fluid">
+        <div class="raw">
+            <div class="col-md-4">
+                <h2>
+                    Регистрация
+                </h2>
+                        <form method="POST">
+                            <div class="form-group">
 
-                            <label for="InputPassword">
-                                Пароль
-                            </label>
-                            <input type="password" class="form-control" name="password" id="password" placeholder="Введите пароль"/>
-                        </div>
+                                <label>
+                                    Логин
+                                </label>
+                                <input type="text" class="form-control" name="login" id="title" placeholder="Введите логин"/>
+                            </div>
+                            <div class="form-group">
 
-                        <button type="submit" class="btn btn-success">
-                            Регистрация
-                        </button>
-                    </form>
+                                <label>
+                                    Пароль
+                                </label>
+                                <input type="password" class="form-control" name="password" id="password" placeholder="Введите пароль"/>
+                            </div>
+                            <div class="form-group">
+
+                                <label>
+                                    Повторите пароль
+                                </label>
+                                <input type="password" class="form-control" name="password2" id="password2" placeholder="Повторите пароль"/>
+                            </div>
+
+                            <button type="submit" class="btn btn-success" value="Register">
+                                Регистрация
+                            </button>
+                            <a href="{{ url_for('login_page') }}">Вход</a>
+                        </form>
+            </div>
+            <div class="col-md-8">
+            </div>
+
         </div>
-        <div class="col-md-8">
-        </div>
-
     </div>
-</div>
 
 {% endblock %}

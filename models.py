@@ -1,11 +1,9 @@
-from flask_sqlalchemy import SQLAlchemy
-from app import app, login
-import config
 from werkzeug.security import generate_password_hash, check_password_hash
-from flask_login import UserMixin
-from app import login
 
-db = SQLAlchemy(app)
+from app import login_manager, db
+import config
+
+from flask_login import UserMixin
 
 
 class User(UserMixin, db.Model):
@@ -14,14 +12,14 @@ class User(UserMixin, db.Model):
     password = db.Column(db.String(255), nullable=False)
     tasks = db.relationship('Task', backref='author', lazy='dynamic')
 
-    def set_password(self, password):
-        self.password = generate_password_hash(password)
+    # def set_password(self, password):
+    #     self.password = generate_password_hash(password)
+    #
+    # def check_password(self, password):
+    #     return check_password_hash(self.password, password)
 
-    def check_password(self, password):
-        return check_password_hash(self.password, password)
 
-
-@login.user_loader
+@login_manager.user_loader
 def load_user(user_id):
     return User.query.get(user_id)
 
