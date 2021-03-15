@@ -30,7 +30,7 @@ def auth():
     password2 = request.form.get('password2')
 
     if request.method == 'POST':
-        if not(login or password or password2):
+        if not (login or password or password2):
             flash('Пожалуйста заполните все поля!')
         elif password != password2:
             flash('Пароли не совпадают!')
@@ -72,21 +72,22 @@ def logout():
     return redirect(url_for('index'))
 
 
-@app.route('/add_post', methods=['POST'])
+@app.route('/add_post', methods=['GET', 'POST'])
 @login_required
 def add_post():
+    task_name = request.form.get('task_name')
+    task = request.form.get('task')
+
     if request.method == "POST":
-        task_name = request.form['task_name']
-        task = request.form['task']
 
         task = Task(task_name=task_name, task=task)
 
-        try:
-            db.session.add(task)
-            db.session.commit()
-            return redirect('/add_post')
-        except:
-            return "Получилась ошибка"
+        db.session.add(task)
+        db.session.commit()
+
+        return redirect('/profile')
+
+
     else:
         return render_template('add_post.html')
 
