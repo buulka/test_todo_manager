@@ -1,21 +1,17 @@
-from flask_login import login_user, login_required, logout_user
+from flask_login import login_user, login_required, logout_user, current_user
 
 from app import app, db
 from flask import render_template, request, redirect, flash, url_for
-from models import User, Task
 from werkzeug.security import check_password_hash, generate_password_hash
+
+from models import User, Task
 
 
 @app.route('/')
 @app.route('/index')
 def index():
-    users = User.query.all()
-    return render_template('index.html', data=users)
-
-
-@app.route('/tasks')
-def tasks():
-    return render_template('tasks.html')
+    # users = User.query.all()
+    return render_template('index.html')
 
 
 @app.route('/profile')
@@ -46,6 +42,10 @@ def auth():
     return render_template('auth.html')
 
 
+class Login:
+    name = ''
+
+
 @app.route('/login_page', methods=['GET', 'POST'])
 def login_page():
     login = request.form.get('login')
@@ -55,8 +55,8 @@ def login_page():
         user = User.query.filter_by(login=login).first()
         if user and check_password_hash(user.password, password):
             login_user(user)
-
-            return redirect(url_for('profile'))
+            return show_posts()
+            # return redirect(url_for('show_posts'))
         else:
             flash('Логин или пароль некорректны')
     else:
@@ -64,12 +64,6 @@ def login_page():
 
     return render_template('login_page.html')
 
-
-@app.route('/logout', methods=['GET', 'POST'])
-@login_required
-def logout():
-    logout_user()
-    return redirect(url_for('index'))
 
 
 @app.route('/add_post', methods=['GET', 'POST'])
@@ -80,7 +74,7 @@ def add_post():
 
     if request.method == "POST":
 
-        task = Task(task_name=task_name, task=task)
+        task = Task(task_name=task_name, task=task, user_id=current_user.id)
 
         db.session.add(task)
         db.session.commit()
@@ -92,8 +86,23 @@ def add_post():
         return render_template('add_post.html')
 
 
+@app.route('/posts', methods=['GET', 'POST'])
+@login_required
+def show_posts():
+    user_tasks = Task.query.filter_by(user_id=current_user.id).all()
+
+    return render_template('posts.html', data=user_tasks)
+
+
+@app.route('/logout', methods=['GET', 'POST'])
+@login_required
+def logout():
+    logout_user()
+    return redirect(url_for('index'))
+
+
 @app.after_request
 def redirect_to_signin(response):
     if response.status_code == 401:
-        return redirect(url_for('login') + '?next=' + request.url)
+        return redirect(url_for('login_page') + '?next=' + request.url)
     return response
