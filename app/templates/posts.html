@@ -8,8 +8,9 @@
     <h1>Тут ваши задачи</h1>
 <div class="container-fluid">
 	<div class="row">
+
 		<div class="col-md-12">
-			<table>
+			<table class="table-hover table-bordered">
 				<tr>
 					<th>Задача</th>
 					<th>Содержание</th>
@@ -17,9 +18,16 @@
 
                 {% for task in data %}
             <tr>
+                <td>{{ task.task_name }} </td>
+                <td>{{ task.task }} </td>
 
-               <td>{{ task.task_name }} </td>
-               <td>{{ task.task }} </td>
+                <td>
+                    <form action="/delete_post/{{ task.id }}">
+					<button type="submit">
+						Удалить запись
+					</button>
+					</form>
+                </td>
             </tr>
             {% endfor %}
 

@@ -7,28 +7,40 @@
 </head>
 <body>
 <div class="container-fluid">
-	<div class="row">
-		<div class="col-md-12">
-			<ul class="nav nav-tabs navbar-expand-lg flex-row navbar-light bg-light">
-				<li class="nav-item">
-					<a class="nav-link" href="/index">Главная страница</a>
-				</li>
-				<li class="nav-item">
-					<a class="nav-link" href="/add_post">Создать задачу</a>
-				</li>
-				<li class="nav-item">
-					<a class="nav-link" href="/posts">Показать задачи</a>
-				</li>
-                <li class="nav-item">
-					<a class="nav-link" href="/profile">Профиль</a>
-				</li>
-				<li class="nav-item">
-					<a class="nav-link" href="/auth">Регистрация</a>
-				</li>
-			</ul>
-		</div>
+			<div class="row bg-light">
+				<div class="col-md-9">
+					<ul class="nav navbar-expand-lg flex-row">
+						<li class="nav-item">
+							<a class="nav-link" href="/index">Главная</a>
+						</li>
+						<li class="nav-item">
+							<a class="nav-link" href="/add_post">Добавить задачу</a>
+						</li>
+						<li class="nav-item">
+							<a class="nav-link" href="/posts">Показать задачи</a>
+						</li>
+						<li class="nav-item">
+							<a class="nav-link" href="/profile">Профиль</a>
+						</li>
+					</ul>
+				</div>
 
-	</div>
+				<div class="col-md-1">
+					<form action="/login_page" method="GET">
+					<button type="submit" class="btn btn-success">
+						Вход
+					</button>
+					</form>
+				</div>
+				<div class="col-md-2">
+					<form action="/auth" method="GET">
+					<button type="submit" class="btn btn-outline-primary" value="Register">
+						Регистрация
+					</button>
+					</form>
+
+				</div>
+			</div>
 </div>
     {% block body %} {% endblock %}
 </body>

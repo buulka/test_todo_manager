@@ -10,13 +10,7 @@ from models import User, Task
 @app.route('/')
 @app.route('/index')
 def index():
-    # users = User.query.all()
     return render_template('index.html')
-
-
-@app.route('/profile')
-def profile():
-    return render_template('profile.html')
 
 
 @app.route('/auth', methods=['GET', 'POST'])
@@ -42,10 +36,6 @@ def auth():
     return render_template('auth.html')
 
 
-class Login:
-    name = ''
-
-
 @app.route('/login_page', methods=['GET', 'POST'])
 def login_page():
     login = request.form.get('login')
@@ -56,14 +46,12 @@ def login_page():
         if user and check_password_hash(user.password, password):
             login_user(user)
             return show_posts()
-            # return redirect(url_for('show_posts'))
         else:
             flash('Логин или пароль некорректны')
     else:
         flash('Пожалуйста, заполните поля "Логин" и "Пароль"')
 
     return render_template('login_page.html')
-
 
 
 @app.route('/add_post', methods=['GET', 'POST'])
@@ -81,7 +69,6 @@ def add_post():
 
         return redirect('/profile')
 
-
     else:
         return render_template('add_post.html')
 
@@ -92,6 +79,19 @@ def show_posts():
     user_tasks = Task.query.filter_by(user_id=current_user.id).all()
 
     return render_template('posts.html', data=user_tasks)
+
+
+@app.route('/delete_post/<post_id>')
+def delete_post(post_id):
+    Task.query.filter_by(id=post_id).delete()
+    db.session.commit()
+    return redirect(url_for('show_posts'))
+
+
+@app.route('/profile')
+@login_required
+def profile():
+    return render_template('profile.html')
 
 
 @app.route('/logout', methods=['GET', 'POST'])

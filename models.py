@@ -25,7 +25,7 @@ class Task(db.Model):
     task = db.Column(db.String, nullable=False)
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
 
-    def __repr__(self):
-        return str(self.task_name) % str(self.task)
+    # def __repr__(self):
+    #     return str(self.task_name) % str(self.task)
 
 
